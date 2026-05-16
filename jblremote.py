@@ -601,21 +601,20 @@ def main_tui(stdscr, host: str):
         result = handle(key)
         if result is not None:
             if not remote.connected:
-                # Try to reconnect before executing
                 status = "Reconnecting…"
                 draw(stdscr, remote, status, False)
                 if remote.connect():
                     remote.refresh_all()
+                    status    = "Reconnected — press again"
+                    status_ok = True
                 else:
                     status    = "Reconnection failed"
                     status_ok = False
-                    draw(stdscr, remote, status, status_ok)
-                    continue
-                result = handle(key)  # retry after reconnect
-
-            if result is not None:
-                status_ok, status = result
                 draw(stdscr, remote, status, status_ok)
+                continue
+
+            status_ok, status = result
+            draw(stdscr, remote, status, status_ok)
 
     stop_evt.set()
     remote.disconnect()
