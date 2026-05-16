@@ -55,7 +55,6 @@ def set_surround_mode(host: str, mode: str) -> bool:
         if len(resp) >= 6 and resp[3] == 0x00 and resp[5] == mode_val:
             print(f"Success! Mode set to {mode}")
             return True
-            return True
         else:
             print(f"Unexpected response")
             return False
